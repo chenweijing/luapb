@@ -1,0 +1,30 @@
+.PHONY: all  clean 
+
+# Flags
+CFLAGS =-g -Wall -fpic
+LDFLAGS = -shared
+
+CC?=gcc
+CXX?=g++
+LD?=gcc
+
+# Directories
+LUA_INC_DIR ?= /usr/include/lua5.1
+#LUA_INC_DIR ?= /usr/local/openresty/luajit/include/luajit-2.1
+PROTOBUF_INC_DIR ?=/usr/include/google
+PYTHON_INC_DIR ?=/usr/local/lib/python2.7/dist-packages/external/protobuf_archive/src
+# Files
+LIB = luapb.so
+
+all:
+	$(CXX) $(CFLAGS) -c -Iinclude -I$(LUA_INC_DIR) -I$(PROTOBUF_INC_DIR) -I$(PYTHON_INC_DIR) src/*.cc
+	$(CXX) $(LDFLAGS) -o $(LIB) *.o -L/usr/local/lib -L/usr/lib/x86_64-linux-gnu -lprotobuf  -llua5.1
+
+clean:
+	rm -f *.so
+	rm -f *.o
+  
+  # 添加 PYTHON_INC_DIR ?=/usr/local/lib/python2.7/dist-packages/external/protobuf_archive/src
+  # 添加 -L/usr/lib/x86_64-linux-gnu  liblua5.1.so 路径
+  
+  
